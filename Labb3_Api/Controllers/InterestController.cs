@@ -1,4 +1,5 @@
-﻿using Labb3_Api.DTOs;
+﻿using Labb3_Api.Application.Interfaces;
+using Labb3_Api.DTOs;
 using Labb3_Api.Models;
 using Labb3_Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -10,21 +11,23 @@ namespace Labb3_Api.Controllers
 	[ApiController]
 	public class InterestController : ControllerBase
 	{
-		private readonly IInterestRepository _interestRepository;
-		public InterestController(IInterestRepository interestRepository)
+		private readonly IInterestService _interestService;
+		public InterestController(IInterestService interestService)
 		{
-			_interestRepository = interestRepository;
+			_interestService = interestService;
 		}
+		
 		[HttpGet(Name = "GetAllInterests")]
 		public async Task<IActionResult> GetAllInterests()
 		{
-			var interests = await _interestRepository.GetAllAsync();
+			var interests = await _interestService.GetAllInterestsAsync();
 			if (interests == null || !interests.Any())
 			{
 				return NotFound("No interests found.");
 			}
 			return Ok(interests);
 		}
+
 		[HttpPost(Name = "AddInterest")]
 		public async Task<IActionResult> AddInterest(InterestDTO interest)
 		{
@@ -32,13 +35,14 @@ namespace Labb3_Api.Controllers
 			{
 				return BadRequest("Interest cannot be null.");
 			}
-			var addedInterest = await _interestRepository.AddInterest(interest);
+			var addedInterest = await _interestService.AddInterestAsync(interest);
 			if(addedInterest == null)
 			{
 				return BadRequest("Failed to add interest.");
 			}
-			return CreatedAtAction(nameof(GetAllInterests), new { id = addedInterest.Id }, addedInterest);
+			return CreatedAtAction(nameof(addedInterest), new { id = addedInterest.Id }, addedInterest);
 		}
+/*
 		[HttpGet("{id}/links", Name = "GetAllInterestLinks")]
 		public async Task<IActionResult> GetAllLinks(int id)
 		{
@@ -48,6 +52,6 @@ namespace Labb3_Api.Controllers
 				return NotFound($"No links found for interest with ID {id}.");
 			}
 			return Ok(links);
-		}
+		}*/
 	}
 }

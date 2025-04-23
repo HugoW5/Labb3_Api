@@ -1,7 +1,7 @@
 ﻿namespace Labb3_Api.DTOs
 {
-	public class LinkDTO
+	public record LinkDTO
 	{
-		public string Url { get; set; } = null!;
+		public string Url { get; init; } = null!;
 	}
 }

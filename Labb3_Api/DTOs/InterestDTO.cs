@@ -2,10 +2,10 @@
 
 namespace Labb3_Api.DTOs
 {
-	public class InterestDTO
+	public record InterestDTO
 	{
-		public int Id { get; set; }
-		public string Title { get; set; } = null!;
-		public string Description { get; set; } = null!;
+		public int Id { get; init; }
+		public string Title { get; init; } = null!;
+		public string Description { get; init; } = null!;
 	}
 }

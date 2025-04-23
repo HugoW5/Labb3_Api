@@ -5,7 +5,8 @@ namespace Labb3_Api.Repositories.Interfaces
 	public interface IInterestRepository
 	{
 		public Task<IEnumerable<Interest>> GetAllAsync();
-		public Task<Interest?> AddInterest(InterestDTO interest);
+		public Task<Interest?> AddInterest(Interest interest);
+		public Task<Interest?> GetInterestById(int id);
 		public Task<IEnumerable<LinkDTO>> GetAllLinksAsync(int id);
 
 	}

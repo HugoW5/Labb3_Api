@@ -3,6 +3,7 @@ using Labb3_Api.DTOs;
 using Labb3_Api.Models;
 using Labb3_Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Labb3_Api.Repositories
 {
@@ -14,15 +15,9 @@ namespace Labb3_Api.Repositories
 			_context = context;
 		}
 
-		public async Task<Interest?> AddInterest(InterestDTO interest)
+		public async Task<Interest?> AddInterest(Interest interest)
 		{
-			Interest newInterest = new Interest
-			{
-				Title = interest.Title,
-				Description = interest.Description,
-				Links = new List<Link>()
-			};
-			await _context.Interests.AddAsync(newInterest);
+			await _context.Interests.AddAsync(interest);
 			_context.SaveChanges();
 			return _context.Interests.ToList()[^1];
 		}
@@ -39,6 +34,11 @@ namespace Labb3_Api.Repositories
 				{
 					Url = l.Url
 				}).ToListAsync();
+		}
+
+		public async Task<Interest?> GetInterestById(int id)
+		{
+			return await _context.Interests.FindAsync(id);
 		}
 	}
 }

@@ -1,3 +1,5 @@
+using Labb3_Api.Application;
+using Labb3_Api.Application.Interfaces;
 using Labb3_Api.Data;
 using Labb3_Api.Repositories;
 using Labb3_Api.Repositories.Interfaces;
@@ -15,6 +17,11 @@ namespace Labb3_Api
             builder.Services.AddControllers();
             builder.Services.AddScoped<IPersonRepository, PersonRepository>();
             builder.Services.AddScoped<IInterestRepository, InterestRepository>();
+
+
+            builder.Services.AddScoped<IPersonService, PersonService>();
+			builder.Services.AddScoped<IInterestService, InterestService>();
+
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

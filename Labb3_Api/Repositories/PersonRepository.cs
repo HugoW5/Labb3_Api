@@ -14,21 +14,18 @@ namespace Labb3_Api.Repositories
 			_context = context;
 		}
 
-		public async Task<Person?> AddInterest(int personId, int interestId)
+		public async Task<Person?> AddInterest(Person person, Interest interest)
 		{
-			Person? person = await _context.Persons.FindAsync(personId);
-			if (person == null)
-			{
-				return null;
-			}
-			Interest? interest = _context.Interests.FirstOrDefault(i => i.Id == interestId);
-			if (interest == null)
-			{
-				return null;
-			}
 			person.Interests.Add(interest);
-			_context.SaveChanges();
+			await _context.SaveChangesAsync();
 			return person;
+		}
+
+		public async Task<Person> CreateNewPerson(Person person)
+		{
+			_context.Persons.Add(person);
+			await _context.SaveChangesAsync();
+			return _context.Persons.ToList()[^1];
 		}
 
 		public async Task<IEnumerable<Person>> GetAllAsync()
@@ -36,36 +33,19 @@ namespace Labb3_Api.Repositories
 			return await _context.Persons.ToListAsync();
 		}
 
-		public async Task<IEnumerable<LinkDTO>> GetAllLinksAsync(int id)
+		public async Task<IEnumerable<Interest>> GetAllInterestsAsync(int id)
 		{
-			return await _context.Links.Where(l => l.Person.Id == id)
-				.Select(l=> new LinkDTO
-				{
-					Url = l.Url
-				}).ToListAsync();
+			return await _context.Interests.Where(i => i.People.Any(p => p.Id == id)).ToListAsync();
 		}
 
-		public async Task<PersonDTO?> GetByIdAsync(int id)
+		public async Task<IEnumerable<Link?>> GetAllLinksAsync(int id)
 		{
-			return await _context.Persons.Where(p => p.Id == id)
-				.Select(p => new PersonDTO
-				{
-					Id = p.Id,
-					FirstName = p.FirstName,
-					LastName = p.LastName,
-					Email = p.Email,
-					PhoneNumber = p.PhoneNumber,
-					Links = p.Links.Select(l => new LinkDTO
-					{
-						Url = l.Url
-					}).ToList(),
-					Interests = p.Interests.Select(i => new InterestDTO
-					{
-						Id = i.Id,
-						Title = i.Title,
-						Description = i.Description
-					}).ToList()
-				}).FirstOrDefaultAsync();
+			return await _context.Links.Where(l => l.Person.Id == id).ToListAsync();
+		}
+
+		public async Task<Person?> GetByIdAsync(int id)
+		{
+			return await _context.Persons.FindAsync(id);
 		}
 	}
 }
