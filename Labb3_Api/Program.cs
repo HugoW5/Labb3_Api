@@ -22,6 +22,9 @@ namespace Labb3_Api
             builder.Services.AddScoped<IPersonService, PersonService>();
 			builder.Services.AddScoped<IInterestService, InterestService>();
 
+            builder.Services.AddScoped<ILinkRepository, LinkRepository>();
+            builder.Services.AddScoped<ILinkService, LinkService>();
+
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

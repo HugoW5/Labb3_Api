@@ -39,27 +39,40 @@ namespace Labb3_Api.Controllers
 		}
 
 
-		[HttpGet("{id}/links", Name = "GetAllPersonLinks")]
-		public async Task<IActionResult> GetAllLinks(int id)
+		[HttpGet("{personId}/links", Name = "GetAllPersonLinks")]
+		public async Task<IActionResult> GetAllLinks(int personId)
 		{
-			var links = await _personService.GetAllLinksAsync(id);
+			var links = await _personService.GetAllLinksAsync(personId);
 			if (links == null || !links.Any())
 			{
-				return NotFound($"No links found for person with ID {id}.");
+				return NotFound($"No links found for person with ID {personId}.");
 			}
 			return Ok(links);
 		}
 
-		[HttpPost("{personId}/interests/{interestId}", Name = "AddPersonInterest")]
-		public async Task<IActionResult> AddInterest(int personId, int interestId)
+		[HttpGet("{personId}/Interests", Name = "GetAllPersonInterests")]
+		public async Task<IActionResult> GetAllInterests(int personId)
 		{
-			var person = await _personService.AddInterestAsync(personId, interestId);
+			var links = await _personService.GetAllInterestsAsync(personId);
+			if (links == null || !links.Any())
+			{
+				return NotFound($"No links found for person with ID {personId}.");
+			}
+			return Ok(links);
+		}
+
+		[HttpPut("{personId}/interests", Name = "AddPersonInterest")]
+		public async Task<IActionResult> AddInterest(int personId, AddInterestRequest request)
+		{
+			var person = await _personService.AddInterestAsync(personId, request.InterestId);
 			if (person == null)
 			{
-				return NotFound($"Person with ID {personId} or Interest with ID {interestId} not found.");
+				return NotFound($"Person with ID {personId} or Interest with ID {request.InterestId} not found.");
 			}
+
 			return CreatedAtAction(nameof(AddInterest), new { id = person.Id }, person);
 		}
+
 		[HttpPost(Name = "CreatePerson")]
 		public async Task<IActionResult> CreatePerson(CreatePersonDTO person)
 		{

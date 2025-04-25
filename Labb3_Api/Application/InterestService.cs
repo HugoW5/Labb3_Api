@@ -12,7 +12,7 @@ namespace Labb3_Api.Application
 		{
 			_interestRepository = interestRepository;
 		}
-		public async Task<Interest?> AddInterestAsync(InterestDTO interestDTO)
+		public async Task<Interest?> AddInterestAsync(CreateNewInterest interestDTO)
 		{
 			var Interest = new Interest
 			{

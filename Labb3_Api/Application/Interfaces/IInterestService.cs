@@ -7,7 +7,7 @@ namespace Labb3_Api.Application.Interfaces
 	{
 		public Task<IEnumerable<InterestDTO>> GetAllInterestsAsync();
 		public Task<InterestDTO?> GetInterestByIdAsync(int id);
-		public Task<Interest?> AddInterestAsync(InterestDTO interest);
+		public Task<Interest?> AddInterestAsync(CreateNewInterest interest);
 
 	}
 }

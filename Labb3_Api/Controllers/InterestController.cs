@@ -29,7 +29,7 @@ namespace Labb3_Api.Controllers
 		}
 
 		[HttpPost(Name = "AddInterest")]
-		public async Task<IActionResult> AddInterest(InterestDTO interest)
+		public async Task<IActionResult> AddInterest(CreateNewInterest interest)
 		{
 			if (interest == null)
 			{
@@ -40,7 +40,7 @@ namespace Labb3_Api.Controllers
 			{
 				return BadRequest("Failed to add interest.");
 			}
-			return CreatedAtAction(nameof(addedInterest), new { id = addedInterest.Id }, addedInterest);
+			return CreatedAtAction(nameof(AddInterest), new { id = addedInterest.Id }, addedInterest);
 		}
 /*
 		[HttpGet("{id}/links", Name = "GetAllInterestLinks")]

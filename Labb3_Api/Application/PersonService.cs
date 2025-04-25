@@ -14,7 +14,7 @@ namespace Labb3_Api.Application
 			_personRepository = personRepository;
 			_interestRepository = interestRepository;
 		}
-		public async Task<Person?> AddInterestAsync(int personId, int interestId)
+		public async Task<PersonDTO?> AddInterestAsync(int personId, int interestId)
 		{
 			var person = await _personRepository.GetByIdAsync(personId);
 			var interest = await _interestRepository.GetInterestById(interestId);
@@ -26,7 +26,31 @@ namespace Labb3_Api.Application
 			{
 				return null;
 			}
-			return await _personRepository.AddInterest(person, interest);
+			var personRepsonse = await _personRepository.AddInterest(person, interest);
+			if(personRepsonse == null)
+			{
+				return null;
+			}
+			var personDTO = new PersonDTO
+			{
+				FirstName = personRepsonse.FirstName,
+				LastName = personRepsonse.LastName,
+				Email = personRepsonse.Email,
+				PhoneNumber = personRepsonse.PhoneNumber,
+				Interests = personRepsonse.Interests.Select(i => new InterestDTO
+				{
+					Id = i.Id,
+					Title = i.Title,
+					Description = i.Description
+				}).ToList(),
+				Links = personRepsonse.Links.Select(l => new LinkDTO
+				{
+
+				}).ToList()
+			};
+
+			return personDTO;
+
 		}
 
 
@@ -44,6 +68,17 @@ namespace Labb3_Api.Application
 		public async Task<IEnumerable<Person>> GetAllAsync()
 		{
 			return await _personRepository.GetAllAsync();
+		}
+		public async Task<IEnumerable<InterestDTO?>> GetAllInterestsAsync(int personId)
+		{
+			var interests = await _personRepository.GetAllInterestsAsync(personId);
+			var interestsDTO = interests.Select(i => new InterestDTO
+			{
+				Id = i.Id,
+				Title = i.Title,
+				Description = i.Description
+			}).ToList();
+			return interestsDTO;
 		}
 
 		public async Task<PersonDTO?> GetPersonByIdAsync(int id)

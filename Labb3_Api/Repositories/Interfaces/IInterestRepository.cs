@@ -7,7 +7,7 @@ namespace Labb3_Api.Repositories.Interfaces
 		public Task<IEnumerable<Interest>> GetAllAsync();
 		public Task<Interest?> AddInterest(Interest interest);
 		public Task<Interest?> GetInterestById(int id);
-		public Task<IEnumerable<LinkDTO>> GetAllLinksAsync(int id);
+		public Task<IEnumerable<Link>> GetAllLinksAsync(int id);
 
 	}
 }

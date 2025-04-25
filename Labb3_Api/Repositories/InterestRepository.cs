@@ -18,7 +18,7 @@ namespace Labb3_Api.Repositories
 		public async Task<Interest?> AddInterest(Interest interest)
 		{
 			await _context.Interests.AddAsync(interest);
-			_context.SaveChanges();
+			await _context.SaveChangesAsync();
 			return _context.Interests.ToList()[^1];
 		}
 
@@ -27,13 +27,9 @@ namespace Labb3_Api.Repositories
 			return await _context.Interests.ToListAsync();
 		}
 
-		public async Task<IEnumerable<LinkDTO>> GetAllLinksAsync(int id)
+		public async Task<IEnumerable<Link>> GetAllLinksAsync(int id)
 		{
-			return await _context.Links.Where(l => l.Interest.Id == id)
-				.Select(l => new LinkDTO
-				{
-					Url = l.Url
-				}).ToListAsync();
+			return await _context.Links.Where(l => l.Interest.Id == id).ToListAsync();
 		}
 
 		public async Task<Interest?> GetInterestById(int id)
