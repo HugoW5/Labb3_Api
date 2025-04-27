@@ -27,13 +27,13 @@ namespace Labb3_Api.Controllers
 			return Ok(persons);
 		}
 
-		[HttpGet("{id}", Name = "GetById")]
-		public async Task<IActionResult> GetById(int id)
+		[HttpGet("{personId}", Name = "GetById")]
+		public async Task<IActionResult> GetById(int personId)
 		{
-			var person = await _personService.GetPersonByIdAsync(id);
+			var person = await _personService.GetPersonByIdAsync(personId);
 			if (person == null)
 			{
-				return NotFound($"Person with ID {id} not found.");
+				return NotFound($"Person with ID {personId} not found.");
 			}
 			return Ok(person);
 		}
