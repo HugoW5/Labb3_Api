@@ -15,7 +15,7 @@ namespace Labb3_Api.Controllers
 		{
 			_linkService = linkService;
 		}
-		[HttpPut]
+		[HttpPost]
 		public async Task<IActionResult> AddLink(AddNewLinkRequest link)
 		{
 			if (link == null)

@@ -61,7 +61,7 @@ namespace Labb3_Api.Controllers
 			return Ok(links);
 		}
 
-		[HttpPut("{personId}/interests", Name = "AddPersonInterest")]
+		[HttpPost("{personId}/interests", Name = "AddPersonInterest")]
 		public async Task<IActionResult> AddInterest(int personId, AddInterestRequest request)
 		{
 			var person = await _personService.AddInterestAsync(personId, request.InterestId);
