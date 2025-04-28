@@ -190,7 +190,7 @@
   }
 ]
 ```
-### 9. Lägg till ntt intresse 
+### 9. Lägg till nytt intresse 
 > ### POST /api/Link
 **Request Body**
 ```json
