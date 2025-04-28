@@ -158,8 +158,8 @@
 ```json
 {
   "url": "string",
-  "interestId": 0,
-  "personId": 0
+  "interestId": 2,
+  "personId": 1
 }
 ```
 **Response**
